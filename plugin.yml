@@ -1,0 +1,13 @@
+name: TPA
+author: alvin0319
+main: alvin0319\TPA\Loader
+version: 1.0.0
+api: 4.0.0
+
+permissions:
+  tpa.command.accept:
+    default: true
+  tpa.command.deny:
+    default: true
+  tpa.command.request:
+    default: true
