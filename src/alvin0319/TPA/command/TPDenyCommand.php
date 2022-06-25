@@ -10,6 +10,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
+use function in_array;
 
 final class TPDenyCommand extends Command implements PluginOwned{
 	use PluginOwnedTrait;
@@ -39,6 +40,10 @@ final class TPDenyCommand extends Command implements PluginOwned{
 		}
 		if($queue->getReceiver()->getName() !== $sender->getName()){
 			$sender->sendMessage(Loader::$prefix . "You can't deny a teleport request that is not sent to you.");
+			return;
+		}
+		if(in_array($sender->getWorld()->getFolderName(), $this->owningPlugin->getConfig()->get("disallowed-worlds", []))){
+			$sender->sendMessage(Loader::$prefix . "You cannot deny a teleport request in this world.");
 			return;
 		}
 		$queue->deny();

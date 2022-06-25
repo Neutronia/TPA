@@ -12,6 +12,7 @@ use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
 use function array_shift;
 use function count;
+use function in_array;
 
 final class TPRequestCommand extends Command implements PluginOwned{
 	use PluginOwnedTrait;
@@ -49,6 +50,10 @@ final class TPRequestCommand extends Command implements PluginOwned{
 		}
 		if($this->owningPlugin->hasQueue($receiver)){
 			$sender->sendMessage(Loader::$prefix . "That player already has a teleport request.");
+			return;
+		}
+		if(in_array($sender->getWorld()->getFolderName(), $this->owningPlugin->getConfig()->get("disallowed-worlds", []))){
+			$sender->sendMessage(Loader::$prefix . "You cannot request a teleport request in this world.");
 			return;
 		}
 		Loader::getInstance()->addQueue($sender, $receiver);

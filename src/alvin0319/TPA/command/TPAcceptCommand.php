@@ -42,6 +42,10 @@ final class TPAcceptCommand extends Command implements PluginOwned{
 			$sender->sendMessage(Loader::$prefix . "You cannot accept a teleport request in this world.");
 			return;
 		}
+		if(in_array($queue->getSender()->getWorld()->getFolderName(), $this->owningPlugin->getConfig()->get("disallowed-worlds", []))){
+			$sender->sendMessage(Loader::$prefix . "You cannot accept a teleport request because target is in the disallowed world.");
+			return;
+		}
 		$queue->execute();
 	}
 }
